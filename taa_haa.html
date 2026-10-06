@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تدريب إيمان وأمير في الحديقة</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:14px;background:#f1f0ff;color:#2b2d42;font-family:Tahoma,"Segoe UI","Noto Naskh Arabic",Arial,sans-serif;text-align:center}
+h1{margin:6px 0;font-size:23px}
+.card{background:#fff;border-radius:22px;padding:16px;max-width:700px;margin:10px auto;box-shadow:0 5px 16px rgba(0,0,0,.15)}
+.big{font-size:48px;line-height:1.2;font-weight:bold}
+.rule{font-size:19px;line-height:1.9;margin:6px 0}
+button{font-family:inherit;font-size:20px;border:0;border-radius:16px;padding:10px 20px;margin:6px;background:#5a189a;color:#fff;cursor:pointer}
+button.alt{background:#457b9d}
+.bar{height:12px;background:#ddd;border-radius:8px;overflow:hidden;max-width:700px;margin:6px auto}
+.bar div{height:100%;background:#5a189a;width:0}
+.badge{display:inline-block;background:#ffd166;border-radius:14px;padding:4px 14px;font-size:18px;font-weight:bold;margin:2px}
+.sent{font-size:30px;line-height:2.2;margin:8px 0;background:#faf9ff;border-radius:16px;padding:6px}
+.w{display:inline-block;padding:0 7px;margin:2px;border-radius:12px}
+.tapw{cursor:pointer}
+.w.hl{background:#ffd166}.w.on{background:#ffe9a8}.w.ok{background:#b7e4c7}.w.no{background:#f9c6b8}
+.nl{display:block;height:4px}
+.q{font-size:22px;font-weight:bold;line-height:1.8;margin:10px 0}
+.opts button{display:block;width:100%;background:#fff;color:#2b2d42;border:3px solid #5a189a;font-size:21px;margin:8px 0}
+.opts button.no{border-color:#e5446d;background:#fde8ee}
+.opts button.ok{border-color:#2a9d62;background:#d8f3dc}
+.msg{font-size:20px;min-height:30px;margin:6px;line-height:1.8}
+.why{background:#d8f3dc;border-radius:14px;padding:10px;font-size:20px;line-height:1.9;margin:8px 0}
+.warn{background:#fff3cd;border-radius:12px;padding:8px;font-size:17px;margin:8px 0}
+.stars{font-size:40px}
+.tip{background:#eef;border-radius:14px;padding:10px;margin:8px 0;text-align:right;font-size:19px;line-height:2}
+.speak{font-size:60px;padding:14px 30px;border-radius:50%}
+textarea{width:100%;font-family:inherit;font-size:28px;border:3px solid #5a189a;border-radius:14px;padding:10px;margin:8px 0;direction:rtl}
+.rv{font-size:16px;color:#457b9d;text-decoration:underline;cursor:pointer;display:inline-block;margin:6px}
+.good{color:#1b7a43;font-weight:bold}.bad{color:#c1121f;font-weight:bold}
+</style></head><body>
+<h1>🌳 إِيمَانُ وَأَمِيرٌ فِي الْحَدِيقَةِ 🌳</h1>
+<div class="badge" id="sc" style="display:none"></div>
+<div class="bar"><div id="bar"></div></div>
+<div class="card" id="card"></div>
+<script>
+(function(){
+function $(id){return document.getElementById(id);}
+var P=[["خَرَجَتْ","إِيمَانُ","وَأَمِيرٌ","إِلَى","الْحَدِيقَةِ","مَسَاءً"],
+["رَأَتْ","إِيمَانُ","شَجَرَةً","كَبِيرَةً","وَطَائِرًا","جَمِيلًا"],
+["قَالَ","أَمِيرٌ","هَٰذِهِ","الشَّجَرَةُ","تُعْطِينَا","ظِلًّا"],
+["وَجَلَسَا","تَحْتَ","شَجَرَةٍ","ظَلِيلَةٍ","عَلَى","الْعُشْبِ"],
+["وَشَكَرَ","أَمِيرٌ","رَبَّهُۥ","عَلَى","نِعْمَتِهِۦ"],
+["وَقَالَتْ","إِيمَانُ","الْحَمْدُ","لِلَّٰهِ"]];
+var TA=["تَنْوِينُ فَتْحٍ ( ــً )","تَنْوِينُ ضَمٍّ ( ــٌ )","تَنْوِينُ كَسْرٍ ( ــٍ )"];
+var Q=[
+{g:"التَّاءُ وَالْهَاءُ",s:1,t:"tap",q:"اُنْقُرِي عَلَى كَلِمَةٍ فِيهَا تَاءٌ مَرْبُوطَةٌ ( ة )",k:[2,3],y:"شَجَرَةً وَكَبِيرَةً تَنْتَهِيَانِ بِتَاءٍ مَرْبُوطَةٍ."},
+{g:"التَّاءُ وَالْهَاءُ",s:0,t:"tap",q:"اُنْقُرِي عَلَى كَلِمَةٍ آخِرُهَا تَاءٌ مَفْتُوحَةٌ ( ت )",k:[0],y:"(خَرَجَتْ) تَنْتَهِي بِتَاءٍ مَفْتُوحَةٍ سَاكِنَةٍ، وَتُنْطَقُ تَاءً دَائِمًا حَتَّى عِنْدَ الْوُقُوفِ."},
+{g:"التَّاءُ وَالْهَاءُ",s:5,t:"tap",q:"اُنْقُرِي عَلَى كَلِمَةٍ آخِرُهَا هَاءٌ ( ه )",k:[3],y:"(لِلَّٰهِ) تَنْتَهِي بِهَاءٍ أَصْلِيَّةٍ، وَتُنْطَقُ هَاءً دَائِمًا."},
+{g:"التَّاءُ وَالْهَاءُ",s:1,t:"mc",w:2,q:"مَا الْحَرْفُ الَّذِي تَنْتَهِي بِهِ كَلِمَةُ (شَجَرَةً)؟",o:["تَاءٌ مَفْتُوحَةٌ ( ت )","تَاءٌ مَرْبُوطَةٌ ( ة )","هَاءٌ ( ه )"],a:1,y:"(شَجَرَةً) اسْمٌ مُؤَنَّثٌ، وَعِنْدَ الْوُقُوفِ نَقُولُ: شَجَرَهْ، فَتُكْتَبُ تَاءً مَرْبُوطَةً."},
+{g:"التَّاءُ وَالْهَاءُ",s:5,t:"mc",w:3,q:"مَا الْحَرْفُ الْأَخِيرُ فِي لَفْظِ الْجَلَالَةِ (لِلَّٰهِ)؟",o:["تَاءٌ مَفْتُوحَةٌ ( ت )","تَاءٌ مَرْبُوطَةٌ ( ة )","هَاءٌ ( ه )"],a:2,y:"تَنْتَهِي بِهَاءٍ أَصْلِيَّةٍ وَلَيْسَتْ تَاءً مَرْبُوطَةً، وَتُنْطَقُ هَاءً دَائِمًا."},
+{g:"التَّاءُ وَالْهَاءُ",s:0,t:"mc",w:4,q:"كَيْفَ نَنْطِقُ ( ة ) فِي (الْحَدِيقَةِ) إِذَا وَصَلْنَاهَا بِمَا بَعْدَهَا: (الْحَدِيقَةِ مَسَاءً)؟",o:["تَاءً: الْحَدِيقَتِ","هَاءً: الْحَدِيقَهْ"],a:0,y:"فِي الْوَصْلِ تُنْطَقُ التَّاءُ الْمَرْبُوطَةُ تَاءً، وَفِي الْوَقْفِ تُنْطَقُ هَاءً."},
+{g:"التَّاءُ وَالْهَاءُ",s:1,t:"mc",w:2,q:"كَيْفَ نَنْطِقُ ( ة ) فِي (شَجَرَةً) إِذَا وَصَلْنَاهَا بِكَلِمَةِ (كَبِيرَةً)؟",o:["تَاءً: شَجَرَتً","هَاءً: شَجَرَهً"],a:0,y:"فِي الْوَصْلِ تُنْطَقُ التَّاءُ الْمَرْبُوطَةُ تَاءً، وَفِي الْوَقْفِ تُنْطَقُ هَاءً."},
+{g:"التَّاءُ وَالْهَاءُ",s:3,t:"mc",w:3,q:"وَقَفْنَا عَلَى كَلِمَةِ (ظَلِيلَةٍ). كَيْفَ نَنْطِقُ الْحَرْفَ الْأَخِيرَ؟",o:["تَاءً: ظَلِيلَتْ","هَاءً: ظَلِيلَهْ"],a:1,y:"فِي الْوَقْفِ نَحْذِفُ التَّنْوِينَ وَتَصِيرُ ة هَاءً سَاكِنَةً."},
+{g:"التَّاءُ وَالْهَاءُ",s:4,t:"mc",w:4,q:"لِمَاذَا كُتِبَتِ التَّاءُ مَفْتُوحَةً ( ت ) فِي (نِعْمَتِهِ)؟",o:["لِأَنَّ بَعْدَهَا ضَمِيرًا ( هِ )","لِأَنَّهَا فِي آخِرِ الْكَلِمَةِ","لِأَنَّ فِيهَا شَدَّةً"],a:0,y:"عِنْدَمَا يَتَّصِلُ الِاسْمُ بِضَمِيرٍ تَصِيرُ ة تَاءً مَفْتُوحَةً: نِعْمَةٌ ← نِعْمَتِهِ."},
+{g:"التَّاءُ وَالْهَاءُ",s:4,t:"mc",w:4,q:"كَيْفَ نَكْتُبُ (نِعْمَةٌ) إِذَا أَضَفْنَا إِلَيْهَا الضَّمِيرَ ( هَا )؟",o:["نِعْمَتُهَا","نِعْمَةُهَا","نِعْمَهُهَا"],a:0,y:"تَتَحَوَّلُ ة إِلَى ت مَفْتُوحَةٍ مَعَ الضَّمِيرِ: نِعْمَةٌ ← نِعْمَتُهَا."},
+{g:"التَّاءُ وَالْهَاءُ",s:0,t:"mc",w:4,q:"كَيْفَ نَكْتُبُ (حَدِيقَةٌ) إِذَا أَضَفْنَا إِلَيْهَا الضَّمِيرَ ( نَا )؟",o:["حَدِيقَتُنَا","حَدِيقَةُنَا","حَدِيقَهُنَا"],a:0,y:"تَتَحَوَّلُ ة إِلَى ت مَفْتُوحَةٍ مَعَ الضَّمِيرِ: حَدِيقَةٌ ← حَدِيقَتُنَا."},
+{g:"التَّاءُ وَالْهَاءُ",s:4,t:"tap",q:"اُنْقُرِي عَلَى كَلِمَةٍ فِيهَا هَاءُ ضَمِيرٍ ( ه )",k:[2,4],y:"فِي (رَبَّهُۥ) وَ(نِعْمَتِهِۦ) هَاءٌ ضَمِيرٌ تَعُودُ عَلَى أَمِيرٍ."},
+{g:"التَّاءُ وَالْهَاءُ",s:3,t:"tap",q:"اُنْقُرِي عَلَى كَلِمَةٍ فِيهَا تَاءٌ مَرْبُوطَةٌ ( ة )",k:[2,3],y:"شَجَرَةٍ وَظَلِيلَةٍ تَنْتَهِيَانِ بِتَاءٍ مَرْبُوطَةٍ، وَنَقِفُ عَلَيْهِمَا بِالْهَاءِ."},
+{g:"التَّنْوِينُ",s:0,t:"mc",w:2,q:"مَا نَوْعُ التَّنْوِينِ فِي كَلِمَةِ (وَأَمِيرٌ)؟",o:TA,a:1,y:"عَلَامَةُ التَّنْوِينِ ضَمَّتَانِ فَوْقَ الْحَرْفِ الْأَخِيرِ."},
+{g:"التَّنْوِينُ",s:0,t:"mc",w:5,q:"مَا نَوْعُ التَّنْوِينِ فِي كَلِمَةِ (مَسَاءً)؟",o:TA,a:0,y:"عَلَامَةُ التَّنْوِينِ فَتْحَتَانِ فَوْقَ الْحَرْفِ الْأَخِيرِ."},
+{g:"التَّنْوِينُ",s:3,t:"mc",w:2,q:"مَا نَوْعُ التَّنْوِينِ فِي كَلِمَةِ (شَجَرَةٍ)؟",o:TA,a:2,y:"عَلَامَةُ التَّنْوِينِ كَسْرَتَانِ تَحْتَ الْحَرْفِ الْأَخِيرِ."},
+{g:"التَّنْوِينُ",s:1,t:"tap",q:"اُنْقُرِي عَلَى كَلِمَةٍ فِيهَا تَنْوِينُ فَتْحٍ ( ــً )",k:[2,3,4,5],y:"كُلُّ هَذِهِ الْكَلِمَاتِ عَلَيْهَا فَتْحَتَانِ فِي آخِرِهَا."},
+{g:"الشَّدَّةُ",s:4,t:"mc",w:2,q:"مَا الْحَرْفُ الْمُشَدَّدُ فِي (رَبَّهُۥ)؟",o:["الرَّاءُ","الْبَاءُ","الْهَاءُ"],a:1,y:"الْبَاءُ عَلَيْهَا شَدَّةٌ، فَنَقْرَأُ: رَبْبَهُو."},
+{g:"الشَّدَّةُ",s:2,t:"tap",q:"اُنْقُرِي عَلَى كَلِمَةٍ فِيهَا شَدَّةٌ ( ــّ )",k:[3,5],y:"فِي (الشَّجَرَةُ) شَدَّةٌ عَلَى الشِّينِ لِأَنَّ اللَّامَ شَمْسِيَّةٌ، وَفِي (ظِلًّا) شَدَّةٌ عَلَى اللَّامِ."},
+{g:"السُّكُونُ",s:1,t:"tap",q:"اُنْقُرِي عَلَى كَلِمَةٍ آخِرُهَا سُكُونٌ ( ــْ )",k:[0],y:"فِي (رَأَتْ) التَّاءُ سَاكِنَةٌ، فَلَا نُحَرِّكُهَا."},
+{g:"السُّكُونُ",s:5,t:"tap",q:"اُنْقُرِي عَلَى كَلِمَةٍ آخِرُهَا سُكُونٌ ( ــْ )",k:[0],y:"فِي (وَقَالَتْ) التَّاءُ سَاكِنَةٌ."},
+{g:"الْوَاوُ وَالْيَاءُ الصَّغِيرَتَانِ",s:4,t:"mc",w:2,q:"مَاذَا تَعْنِي الْوَاوُ الصَّغِيرَةُ ( ــۥ ) فِي (رَبَّهُۥ)؟",o:["نَمُدُّ الضَّمَّةَ بِالْوَاوِ: رَبَّهُو","لَا نَمُدُّ وَلَا نَنْطِقُهَا"],a:0,y:"الْوَاوُ الصَّغِيرَةُ فِي رَسْمِ الْمُصْحَفِ عَلَامَةٌ عَلَى مَدِّ الضَّمَّةِ."},
+{g:"الْوَاوُ وَالْيَاءُ الصَّغِيرَتَانِ",s:4,t:"mc",w:4,q:"مَاذَا تَعْنِي الْيَاءُ الصَّغِيرَةُ ( ــۦ ) فِي (نِعْمَتِهِۦ)؟",o:["نَمُدُّ الْكَسْرَةَ بِالْيَاءِ: نِعْمَتِهِي","لَا نَمُدُّ وَلَا نَنْطِقُهَا"],a:0,y:"الْيَاءُ الصَّغِيرَةُ عَلَامَةٌ عَلَى مَدِّ الْكَسْرَةِ."},
+{g:"الْأَلِفَاتُ",s:2,t:"tap",q:"اُنْقُرِي عَلَى كَلِمَةٍ فِيهَا أَلِفٌ خِنْجَرِيَّةٌ ( ــٰ )",k:[2],y:"فِي (هَٰذِهِ) أَلِفٌ صَغِيرَةٌ فَوْقَ الْهَاءِ تُنْطَقُ أَلِفًا: هَاذِهِ."},
+{g:"الْأَلِفَاتُ",s:3,t:"tap",q:"اُنْقُرِي عَلَى كَلِمَةٍ فِيهَا أَلِفٌ مَقْصُورَةٌ ( ى )",k:[4],y:"(عَلَى) تُكْتَبُ بِأَلِفٍ مَقْصُورَةٍ وَتُنْطَقُ أَلِفًا."}
+];
+var D=["اِشْتَرَتْ إِيمَانُ هَدِيَّةً لِأَمِيرٍ","فَفَرِحَ أَمِيرٌ بِهَا وَشَكَرَ أُخْتَهُ"];
+var TOT=Q.length+D.length;
+var miss=0,idx=0,di=0,lock=false,score=0,best=-1,shown=false;
+function prog(p){$("bar").style.width=p+"%";}
+function upd(show){var e=$("sc");e.style.display=show?"inline-block":"none";e.innerHTML="⭐ الدَّرَجَةُ: "+score+" / "+TOT;}
+function lose(){score=Math.max(0,score-1);upd(true);}
+function canSpeak(){return !!(window.speechSynthesis&&window.SpeechSynthesisUtterance);}
+function hasAr(){try{var v=window.speechSynthesis.getVoices();if(!v||!v.length){return true;}for(var i=0;i<v.length;i++){if(String(v[i].lang).toLowerCase().indexOf("ar")===0){return true;}}return false;}catch(e){return true;}}
+function say(x,r){
+ try{if(canSpeak()){window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(x);u.lang="ar-SA";u.rate=r||0.7;window.speechSynthesis.speak(u);}}catch(e){}
+}
+function norm(t){
+ return String(t).replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g,"").replace(/[أإآٱ]/g,"ا").replace(/[.,،؛؟?!:"'()]/g," ").replace(/\s+/g," ").replace(/^\s|\s$/g,"");
+}
+function sentHtml(s,hl,tap){
+ var h="",j,c;
+ for(j=0;j<P[s].length;j++){c="w"+(hl===j?" hl":"")+(tap?" tapw":"");h+='<span class="'+c+'" id="w'+j+'">'+P[s][j]+'</span> ';}
+ return h;
+}
+function intro(){
+ prog(3);upd(false);
+ $("card").innerHTML='<div class="big">🌳</div><div class="rule">أَهْلًا بِكِ! سَتَقْرَئِينَ قِصَّةَ إِيمَانَ وَأَمِيرٍ، ثُمَّ تُجِيبِينَ أَوَّلًا عَنْ أَسْئِلَةِ التَّاءِ الْمَفْتُوحَةِ وَالْمَرْبُوطَةِ وَالْهَاءِ، ثُمَّ بَاقِي الْأَسْئِلَةِ، وَفِي النِّهَايَةِ إِمْلَاءٌ بِالصَّوْتِ.</div>'+
+ '<div class="tip">⭐ كُلُّ إِجَابَةٍ صَحِيحَةٍ = <b>+1</b><br>❌ كُلُّ خَطَأٍ = <b>−1</b><br>🎯 حَاوِلِي الْوُصُولَ إِلَى <b>'+TOT+'</b>!<br>💡 تَذَكَّرِي: ة تَاءٌ فِي الْوَصْلِ وَهَاءٌ فِي الْوَقْفِ، وَتَصِيرُ ت مَعَ الضَّمِيرِ.</div>'+
+ '<button id="go">هَيَّا نَقْرَأْ 📖</button>';
+ $("go").onclick=reading;
+}
+function reading(){
+ prog(8);
+ var h="",i,j,n=0;
+ for(i=0;i<P.length;i++){for(j=0;j<P[i].length;j++){h+='<span class="w tapw" id="r'+n+'">'+P[i][j]+'</span> ';n++;}h+='<span class="nl"></span>';}
+ $("card").innerHTML='<div class="big">📖</div><div class="rule">اقْرَئِي الْقِصَّةَ بِصَوْتٍ عَالٍ، وَاُنْقُرِي عَلَى كُلِّ كَلِمَةٍ بَعْدَ قِرَاءَتِهَا.</div><div class="sent">'+h+'</div><button id="go">جَاهِزَةٌ لِلْأَسْئِلَةِ ✅</button>';
+ var k;for(k=0;k<n;k++){(function(e){e.onclick=function(){e.className="w tapw on";};})($("r"+k));}
+ $("go").onclick=function(){idx=0;di=0;miss=0;score=0;ask();};
+}
+function ask(){
+ if(idx>=Q.length){dict();return;}
+ prog(12+idx*68/Q.length);lock=false;upd(true);
+ var q=Q[idx],k,h;
+ h='<span class="badge">'+q.g+' • '+(idx+1)+' / '+Q.length+'</span>';
+ if(q.t==="mc"){
+  var o="";for(k=0;k<q.o.length;k++){o+='<button data-i="'+k+'">'+q.o[k]+'</button>';}
+  $("card").innerHTML=h+'<div class="sent">'+sentHtml(q.s,q.w,false)+'</div><div class="q">'+q.q+'</div><div class="opts" id="opts">'+o+'</div><div class="msg" id="m"></div><div id="nx"></div>';
+  var bs=$("opts").getElementsByTagName("button");
+  for(k=0;k<bs.length;k++){(function(b){b.onclick=function(){
+   if(lock){return;}
+   if(parseInt(b.getAttribute("data-i"),10)===q.a){done(b);}
+   else{b.className="no";miss++;lose();$("m").innerHTML="فَكِّرِي مَرَّةً أُخْرَى 💪";}
+  };})(bs[k]);}
+ }else{
+  $("card").innerHTML=h+'<div class="q">'+q.q+'</div><div class="sent">'+sentHtml(q.s,-1,true)+'</div><div class="msg" id="m"></div><div id="nx"></div>';
+  for(k=0;k<P[q.s].length;k++){(function(e,i2){e.onclick=function(){
+   if(lock){return;}
+   if(q.k.indexOf(i2)>-1){e.className="w tapw ok";done(null);}
+   else{e.className="w tapw no";miss++;lose();$("m").innerHTML="فَكِّرِي مَرَّةً أُخْرَى 💪";}
+  };})($("w"+k),k);}
+ }
+}
+function done(b){
+ lock=true;score++;upd(true);
+ if(b){b.className="ok";}
+ $("m").innerHTML="🌟 أَحْسَنْتِ!";
+ $("nx").innerHTML='<div class="why">💡 '+Q[idx].y+'</div><button id="n">التَّالِي ◀</button>';
+ $("n").onclick=function(){idx++;ask();};
+}
+function dict(){
+ prog(85);upd(true);shown=false;
+ var full=D.join(". ");
+ var warn=(!canSpeak()||!hasAr())?'<div class="warn">⚠️ جِهَازُكِ قَدْ لَا يَدْعَمُ الصَّوْتَ الْعَرَبِيَّ. يُمْكِنُكِ أَنْ يُمْلِيَ عَلَيْكِ أَحَدٌ الْجُمْلَتَيْنِ، ثُمَّ تَكْتُبِينَهُمَا.</div>':"";
+ $("card").innerHTML='<span class="badge">الْإِمْلَاءُ 🎧</span>'+
+ '<div class="rule">اسْتَمِعِي إِلَى الْجُمْلَتَيْنِ الْمُتَرَابِطَتَيْنِ، ثُمَّ اكْتُبِيهِمَا كَمَا سَمِعْتِ (لَا تَحْتَاجِينَ إِلَى كِتَابَةِ الْحَرَكَاتِ).</div>'+warn+
+ '<button class="speak" id="p1">🔊</button><br><button class="alt" id="p2">🐢 اسْتَمِعِي بِبُطْءٍ</button>'+
+ '<textarea id="tx" rows="3" lang="ar" dir="rtl" placeholder="اُكْتُبِي هُنَا..."></textarea>'+
+ '<button id="ck">تَحَقَّقِي ✅</button><div id="res"></div><div><span class="rv" id="rv">الصَّوْتُ لَا يَعْمَلُ؟ اُظْهِرِي الْجُمْلَتَيْنِ (بِدُونِ دَرَجَةٍ)</span></div>';
+ $("p1").onclick=function(){say(full,0.7);};
+ $("p2").onclick=function(){say(full,0.45);};
+ $("rv").onclick=function(){shown=true;$("res").innerHTML='<div class="sent" style="font-size:26px">'+D.join(". ")+'</div>';};
+ $("ck").onclick=check;
+ setTimeout(function(){say(full,0.7);},400);
+}
+function check(){
+ var t=$("tx").value;
+ if(norm(t)===""){$("res").innerHTML='<div class="msg">اُكْتُبِي الْجُمْلَتَيْنِ أَوَّلًا ✏️</div>';return;}
+ var ex=[],sid=[],good=[],i,j,w,h="",pts=0;
+ for(i=0;i<D.length;i++){good[i]=true;w=norm(D[i]).split(" ");for(j=0;j<w.length;j++){ex.push(w[j]);sid.push(i);}}
+ var us=norm(t).split(" ");
+ for(i=0;i<ex.length;i++){if(us[i]!==ex[i]){good[sid[i]]=false;}}
+ if(us.length!==ex.length){for(i=0;i<D.length;i++){good[i]=false;}}
+ for(i=0;i<us.length;i++){h+='<span class="'+(us[i]===ex[i]?'good':'bad')+'">'+us[i]+'</span> ';}
+ if(!shown){for(i=0;i<D.length;i++){if(good[i]){pts++;}}}
+ score+=pts;upd(true);
+ var m;
+ if(shown){m='<div class="warn">أَظْهَرْتِ الْجُمْلَتَيْنِ قَبْلَ التَّحَقُّقِ فَلَا دَرَجَةَ هَذِهِ الْمَرَّةَ 🙂<br>الْجُمْلَتَانِ:<br><span style="font-size:26px">'+D.join(". ")+'</span></div>';}
+ else if(pts===D.length){m='<div class="why">🌟 أَحْسَنْتِ! كَتَبْتِ الْجُمْلَتَيْنِ صَحِيحَتَيْنِ (+'+pts+')</div>';}
+ else{m='<div class="warn">'+(pts>0?'جُمْلَةٌ وَاحِدَةٌ صَحِيحَةٌ (+'+pts+')، وَالْأُخْرَى تَحْتَاجُ مُرَاجَعَةً.<br>':'')+'كِتَابَتُكِ: '+h+'<br>الصَّحِيحُ:<br><span style="font-size:26px">'+D.join(". ")+'</span><br>اِنْتَبِهِي إِلَى الْكَلِمَاتِ الْحَمْرَاءِ.</div>';}
+ $("ck").style.display="none";$("rv").style.display="none";
+ $("res").innerHTML=m+'<button id="n2">النَّتِيجَةُ 🏆</button>';
+ $("n2").onclick=end;
+}
+function end(){
+ prog(100);upd(false);
+ var r=score/TOT,n=r>=0.85?3:(r>=0.55?2:1),st="",k,msg,nb="";
+ msg=r>=0.85?"مُمْتَازَةٌ! أَنْتِ بَطَلَةٌ حَقِيقِيَّةٌ 🌟":(r>=0.55?"جَيِّدٌ جِدًّا! حَاوِلِي الْوُصُولَ إِلَى "+TOT+" 💪":"بِدَايَةٌ جَمِيلَةٌ! أَعِيدِي وَسَتَصِلِينَ إِلَى "+TOT+" 💪");
+ if(best>=0&&score>best){nb='<div class="rule">🎉 دَرَجَةٌ أَفْضَلُ مِنْ دَرَجَتِكِ السَّابِقَةِ ('+best+')!</div>';}
+ else if(best>=0){nb='<div class="rule">أَفْضَلُ دَرَجَةٍ لَكِ حَتَّى الْآنَ: '+best+'</div>';}
+ if(score>best){best=score;}
+ for(k=0;k<3;k++){st+=k<n?"⭐":"☆";}
+ $("card").innerHTML='<div class="big">🏆</div><h2>أَحْسَنْتِ!</h2><div class="stars">'+st+'</div><div class="big" style="color:#5a189a">'+score+' / '+TOT+'</div><div class="rule">'+msg+'</div>'+nb+
+ '<button id="re">🔁 نُعِيدُ التَّدْرِيبَ</button><button class="alt" id="rd">📖 نَقْرَأُ الْقِصَّةَ</button>';
+ $("re").onclick=function(){idx=0;di=0;miss=0;score=0;ask();};$("rd").onclick=reading;
+}
+try{if(canSpeak()){window.speechSynthesis.getVoices();}}catch(e){}
+intro();
+})();
+</script></body></html>
